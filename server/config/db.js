@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
+import * as dotenv from 'dotenv';
+dotenv.config("../.env");
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/db_capstone';
+console.log(process.env.MONGO_URI);
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/db_capstone';
 
 export default async function InitializeMongoServer(){
     try {

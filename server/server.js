@@ -1,15 +1,16 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import InitializeMongoServer from './config/db.js';
-import { config } from 'dotenv';
 import user from './routes/user.js';
-config();
 
 InitializeMongoServer();
 
 const app = express()
 const port = process.env.PORT || 3000
-
+console.log(process.env.MONGO_URI);
 // Middleware
 app.use(bodyParser.json());
 app.get('/', (req, res) => {
