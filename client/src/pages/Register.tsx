@@ -24,7 +24,7 @@ export default function RegisterPage() {
       <a href='' className='text-blue-500'>Not yet registered?</a>
       </div>
       <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-        Login
+        Register
       </button>
     </div>
   </div>  
