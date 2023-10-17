@@ -5,7 +5,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import InitializeMongoServer from './config/db.js';
 import user from './routes/user.js';
-
+import device from './routes/device.js';
+import record from './routes/record.js';
 InitializeMongoServer();
 
 const app = express()
@@ -17,6 +18,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 app.use("/user", user);
+app.use("/device", device);
+app.use("/record", record);
 
 
 app.listen(port, () => {

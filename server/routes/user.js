@@ -3,6 +3,7 @@ import { check, validationResult} from "express-validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 const router = express.Router();
+import { v4 as uuidv4 } from 'uuid';
 
 import User from "../model/User.js";
 /**
