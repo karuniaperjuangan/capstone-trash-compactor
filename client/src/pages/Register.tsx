@@ -1,8 +1,14 @@
 import { useState } from 'react'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
+import { useNavigate } from 'react-router-dom'
 
 export default function RegisterPage() {
+
+  const navigate = useNavigate()
+  const onRegister = () => {
+    navigate('/login')
+  }
 
   return (
     <div className=' min-h-screen w-screen flex-col flex'>
@@ -23,7 +29,7 @@ export default function RegisterPage() {
       <div className='w-full text-start'>
       <a href='' className='text-blue-500'>Not yet registered?</a>
       </div>
-      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+      <button onClick={onRegister} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
         Register
       </button>
     </div>
