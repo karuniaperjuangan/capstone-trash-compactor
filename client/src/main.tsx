@@ -1,13 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import LoginPage from './pages/Login.tsx'
+import RecordPage from './pages/Record.tsx'
 import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import RegisterPage from './pages/Register.tsx'
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <LoginPage/>,
+    element: <RecordPage/>,
   },
   {
     path: '/login',

@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
-
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 export default function LoginPage() {
 
+  const navigate = useNavigate()
+  const onLogin = () => {
+    navigate('/register')
+  }
   return (
     <div className=' min-h-screen w-screen flex-col flex'>
     <div className='text-black text-center rounded-md max-w-4xl mx-auto my-auto'>
@@ -17,9 +22,9 @@ export default function LoginPage() {
         <input type='password' className='bg-white outline outline-1 rounded-sm'></input>
       </div>
       <div className='w-full text-start'>
-      <a href='' className='text-blue-500'>Not yet registered?</a>
+      <Link to='/register'>Belum punya akun?</Link>
       </div>
-      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+      <button onClick={onLogin} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
         Login
       </button>
     </div>
