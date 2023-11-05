@@ -5,6 +5,8 @@ import RecordPage from './pages/Record.tsx'
 import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import RegisterPage from './pages/Register.tsx'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -21,6 +23,7 @@ const router = createBrowserRouter([
 ])
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <ToastContainer/>
     <RouterProvider router={router}/>
   </React.StrictMode>
 )

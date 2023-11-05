@@ -3,6 +3,7 @@ dotenv.config();
 
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import InitializeMongoServer from './config/db.js';
 import user from './routes/user.js';
 import device from './routes/device.js';
@@ -14,6 +15,9 @@ const port = process.env.PORT || 3000
 console.log(process.env.MONGO_URI);
 // Middleware
 app.use(bodyParser.json());
+app.use(cors({
+    origin: '*'
+}));
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
