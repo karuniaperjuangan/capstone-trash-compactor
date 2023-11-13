@@ -1,6 +1,6 @@
 from datetime import datetime
 import uuid
-from typing import Optional
+from typing import Optional, Union
 from pydantic import BaseModel, Field
 """
 class Device(BaseModel):
@@ -31,7 +31,10 @@ class Record(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)    
     #device_id: str = Field(...)
-    initial_height: float = Field(...)
+    initial_height: Union[float, None]
     final_height: float = Field(...)
+
+class DefaultInitialHeight(BaseModel):
+    default_initial_height: float = Field(...)
 
 
