@@ -73,6 +73,28 @@ def pair_user_device(request: Request, user_device_pair: UserDevicePair = Body(.
 @router.post("/record", response_description="Create a new record", status_code=status.HTTP_201_CREATED, response_model=Record)
 def create_record(request: Request, record: Record = Body(...)):
     record = jsonable_encoder(record)
+    if record["initial_height"] is None:
+        if request.app.default_initial_height is None:
+            with open("DEFAULT_INTIAL_HEIGHT.txt", "r") as f:
+                request.app.default_initial_height = float(f.read())
+        record["initial_height"] = request.app.default_initial_height
+    record["final_height"] = 54-record["final_height"]
+    print(record)
+    new_record = request.app.database["records"].insert_one(record)
+    created_record = request.app.database["records"].find_one(
+        {"_id": new_record.inserted_id}
+    )
+
+    return created_record
+
+@router.post("/record_raw", response_description="Create a new record", status_code=status.HTTP_201_CREATED, response_model=Record)
+def create_record_raw(request: Request, record: Record = Body(...)):
+    record = jsonable_encoder(record)
+    if type(record["initial_height"]) is None:
+        if request.app.default_initial_height is None:
+            request.app.database["default_initial_height"].insert_one({"default_initial_height": 40.0})
+        record["initial_height"] = request.app.database["default_initial_height"].find_one({})["default_initial_height"]
+    print(record)
     new_record = request.app.database["records"].insert_one(record)
     created_record = request.app.database["records"].find_one(
         {"_id": new_record.inserted_id}
@@ -101,3 +123,16 @@ def delete_record(id: str, request: Request):
         return Response(status_code=status.HTTP_204_NO_CONTENT)
 
     raise HTTPException(status_code=404, detail=f"Record {id} not found")
+
+
+#Set default initial height
+@router.post("/initial_height", response_description="Set default initial height", status_code=status.HTTP_201_CREATED)
+def set_initial_height(request:Request,initial_height:float):
+    # Delete all previous default initial height documents
+    request.app.database["default_initial_height"].delete_many({})
+    # Insert new default initial height document
+    request.app.database["default_initial_height"].insert_one({"default_initial_height": initial_height})
+    request.app.default_initial_height = initial_height
+    return {
+        "message": "Default initial height set as " + str(initial_height)
+    }

@@ -1,0 +1,4 @@
+fastapi[all]==0.95.*
+uvicorn
+pydantic
+pymongo==4.6.*
