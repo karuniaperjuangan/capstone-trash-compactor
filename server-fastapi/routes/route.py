@@ -70,6 +70,7 @@ def pair_user_device(request: Request, user_device_pair: UserDevicePair = Body(.
     return created_user_device_pair
 """
 
+"""
 @router.post("/record", response_description="Create a new record", status_code=status.HTTP_201_CREATED, response_model=Record)
 def create_record(request: Request, record: Record = Body(...)):
     record = jsonable_encoder(record)
@@ -136,3 +137,4 @@ def set_initial_height(request:Request,initial_height:float):
     return {
         "message": "Default initial height set as " + str(initial_height)
     }
+"""
