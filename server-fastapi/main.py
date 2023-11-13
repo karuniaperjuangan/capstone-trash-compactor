@@ -15,8 +15,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.include_router(record_router, tags=["Record"])
+app.mongodb_client : MongoClient = MongoClient(os.getenv("MONGO_URL"))
+app.database = app.mongodb_client[os.getenv("MONGO_DB_NAME")]
+#app.include_router(record_router, tags=["Record"])
 
 @app.on_event("startup")
 async def startup():
