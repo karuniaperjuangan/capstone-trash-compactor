@@ -19,7 +19,11 @@ app.add_middleware(
 )
 app.mongodb_client : MongoClient = MongoClient(os.getenv("MONGO_URL"))
 app.database = app.mongodb_client[os.getenv("MONGO_DB_NAME")]
-
+if app.database["default_initial_height"].count_documents({}) == 0:
+        app.database["default_initial_height"].insert_one({"default_initial_height": 40.0})
+else:
+    app.default_initial_height = app.database["default_initial_height"].find_one({})["default_initial_height"]
+    
 #app.include_router(record_router, tags=["Record"])
 
 @app.on_event("startup")
