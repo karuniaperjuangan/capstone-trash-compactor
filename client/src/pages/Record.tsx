@@ -69,7 +69,7 @@ export default function RecordPage() {
                             <button className='bg-primary text-white font-bold py-2 px-4 rounded'
                             onClick={() => {
                                 axios.post(import.meta.env.VITE_BACKEND_URL + '/record_raw', addedRecord)  
-                                .then((res) => {
+                                .then((_) => {
                                     //Refresh page
                                     window.location.reload();
                                 })
@@ -188,7 +188,7 @@ export default function RecordPage() {
                                             <button 
                                             onClick={() => {
                                                 axios.delete(import.meta.env.VITE_BACKEND_URL + '/record/' + item._id)
-                                                .then((res) => {
+                                                .then((_) => {
                                                     //Refresh page
                                                     window.location.reload();
                                                 })
