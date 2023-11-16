@@ -109,6 +109,12 @@ def set_initial_height(request:Request,initial_height:float):
         "message": "Default initial height set as " + str(initial_height)
     }
 
+@app.get("/initial_height", response_description="Get default initial height", status_code=status.HTTP_200_OK)
+def get_initial_height(request:Request):
+    return {
+        "default_initial_height": request.app.default_initial_height
+    }
+
 import uvicorn
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
