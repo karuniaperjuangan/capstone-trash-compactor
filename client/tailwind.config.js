@@ -8,8 +8,16 @@ export default {
         "secondary": "#F2FFFC",
 
       },
+      screens: {
+        "max-xs": { "max": "639px" },
+        "max-sm": { "max": "767px" },
+        "max-md": { "max": "1023px" },
+        "max-lg": { "max": "1279px" },
+        "max-xl": { "max": "1535px" },
+      },
+      }
     },
-  },
+  
   plugins: [],
 }
 

@@ -91,7 +91,7 @@ export default function RecordPage() {
                 <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-10'>
                     <div className='bg-white text-black rounded-md p-8 flex flex-col'>
                         <div className='flex justify-between'>
-                            <div className='text-2xl font-bold'>Info</div>
+                            <div className='text-2xl font-bold text-center mx-auto'>Info</div>
                             
                         </div>
                         <div className='flex flex-col my-4 w-72'>
@@ -118,6 +118,12 @@ export default function RecordPage() {
                                     }]
                                 }}
                             />
+                            {/*Time, Initial Height, Final Height, Initial Volume, Final Volume*/}
+                            <p className='text-center'>Date: {new Date(addedRecord.created_at as string).toLocaleString('id-ID', {day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'}).replace("pukul","-")}</p>
+                            <p className='text-center'>Initial Height: {Math.round(addedRecord.initial_height*100)/100} cm</p>
+                            <p className='text-center'>Final Height: {Math.round(addedRecord.final_height*100)/100} cm</p>
+                            <p className='text-center'>Initial Volume: {Math.round(addedRecord.initial_height *50*30/1000 *100)/100} L</p>
+                            <p className='text-center'>Final Volume: {Math.round(addedRecord.final_height *50*30/1000 *100)/100} L</p>
                         </div>
                         <div className='flex justify-end'>
                             <button onClick={() => setShowInfoModal(false)} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>
@@ -156,9 +162,9 @@ export default function RecordPage() {
                                 <th>Time</th>
                                 <th>Initial Height (cm)</th>
                                 <th>Final Height (cm)</th>
-                                <th>Initial Volume (L)</th>
-                                <th>Final Volume (L)</th>
-                                <th>Volume Change (L)</th>
+                                <th className='max-sm:hidden'>Initial Volume (L)</th>
+                                <th className='max-sm:hidden'>Final Volume (L)</th>
+                                <th className='max-sm:hidden'>Volume Change (L)</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -168,12 +174,12 @@ export default function RecordPage() {
                                     <tr key={item._id} className=" bg-secondary outline outline-1 text-center outline-gray-200">
                                         <td>{index+1}</td>
                                         {/* Convert item.created_at which is UTC Time String to  Local Time with format DD Month (non abbreviated) Year HH:mm:ss*/}
-                                        <td>{new Date(item.created_at as string).toLocaleString('id-ID', {day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'})}</td>
-                                        <td>{item.initial_height}</td>
-                                        <td>{item.final_height}</td>
-                                        <td>{item.initial_height *50*30/1000}</td>
-                                        <td>{item.final_height*50*30/1000}</td>
-                                        <td>{(item.initial_height - item.final_height)*30*50/1000}</td>
+                                        <td>{new Date(item.created_at as string).toLocaleString('id-ID', {day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'}).replace("pukul","-")}</td>
+                                        <td>{Math.round(item.initial_height*100)/100}</td>
+                                        <td>{Math.round(item.final_height*100)/100}</td>
+                                        <td className='max-sm:hidden'>{Math.round(item.initial_height *50*30/1000 *100)/100}</td>
+                                        <td className='max-sm:hidden'>{Math.round(item.final_height*50*30/1000*100)/100}</td>
+                                        <td className='max-sm:hidden'>{Math.round((item.initial_height - item.final_height)*30*50/1000*100)/100}</td>
                                         <td>
                                         <button 
                                             onClick={() => {
