@@ -14,6 +14,7 @@ export default function RecordPage() {
         initial_height: 0,
         final_height: 0,
     } as Record)
+    const [defaultInitialHeight, setDefaultInitialHeight] = useState(40.0)
     const [data, setData] = useState<Record[]>([])
     const [showAddDataModal, setShowAddDataModal] = useState(false)
     const [showInfoModal, setShowInfoModal] = useState(false)
@@ -37,49 +38,37 @@ export default function RecordPage() {
                 <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-10'>
                     <div className='bg-white text-black rounded-md p-8 flex flex-col'>
                         <div className='flex justify-between'>
-                            <div className='text-2xl font-bold'>Add Data</div>
+                            <div className='text-2xl font-bold'>Setting</div>
                             
                         </div>
                         <div className='flex flex-col my-4'>
-                            <label>Initial Height</label>
+                            <label>Default Initial Height</label>
                             <input type='number' className='bg-white outline outline-1 rounded-sm'
+                            defaultValue={defaultInitialHeight}
                             onChange={
                                 (e) => {
-                                    setAddedRecord({
-                                        ...addedRecord,
-                                        initial_height: parseInt(e.target.value)
-                                    })
+                                    setDefaultInitialHeight(parseFloat(e.target.value))
                                     console.log(e.target.value)
                                 }
                             }
                             ></input>
                         </div>
-                        <div className='flex flex-col my-4'>
-                            <label>Final Height</label>
-                            <input type='number' className='bg-white outline outline-1 rounded-sm' onChange={
-                                (e) => {
-                                    setAddedRecord({
-                                        ...addedRecord,
-                                        final_height: parseInt(e.target.value)
-                                    })
-                                }
-                            }></input>
-                        </div>
                         <div className='flex justify-end'>
-                            <button className='bg-primary text-white font-bold py-2 px-4 rounded'
+                            <button className='bg-primary text-white font-bold py-2 px-4 mr-2 rounded'
                             onClick={() => {
-                                axios.post(import.meta.env.VITE_BACKEND_URL + '/record_raw', addedRecord)  
-                                .then((_) => {
+                                axios.post(import.meta.env.VITE_BACKEND_URL + '/initial_height?initial_height=' + defaultInitialHeight)
+                                .then((res) => {
+                                    console.log(res.data)
                                     //Refresh page
-                                    window.location.reload();
+                                    //window.location.reload();
                                 })
                                 .catch((err) => {
                                     console.log(err)
                                 })
                             }}>
-                                Add
+                                Set
                             </button>
-                            <button onClick={() => setShowAddDataModal(false)} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>
+                            <button onClick={() => setShowAddDataModal(false)} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded'>
                                 Close
                             </button>
                         </div>
@@ -119,7 +108,7 @@ export default function RecordPage() {
                                 }}
                             />
                             {/*Time, Initial Height, Final Height, Initial Volume, Final Volume*/}
-                            <p className='text-center'>Date: {new Date(addedRecord.created_at as string).toLocaleString('id-ID', {day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'}).replace("pukul","-")}</p>
+                            <p className='text-center'>Date: {new Date(addedRecord.created_at as string + "Z").toLocaleString('id-ID', {day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'}).replace("pukul","-")}</p>
                             <p className='text-center'>Initial Height: {Math.round(addedRecord.initial_height*100)/100} cm</p>
                             <p className='text-center'>Final Height: {Math.round(addedRecord.final_height*100)/100} cm</p>
                             <p className='text-center'>Initial Volume: {Math.round(addedRecord.initial_height *50*30/1000 *100)/100} L</p>
@@ -151,7 +140,9 @@ export default function RecordPage() {
                 <h1 className='text-4xl font-bold text-center my-8 text-primary'>Trash Compactor</h1>
                 <div className=' w-3/4 mx-auto max-w-6xl'>
                     <div className=' w-full flex justify-end'>
-                        <button className='bg-primary self-end text-white font-bold py-2 px-4 rounded' onClick={() => setShowAddDataModal(true)}>
+                        <button className='bg-primary self-end text-white font-bold py-2 px-4 rounded' onClick={() => {
+                            setShowAddDataModal(true)
+                            }}>
                             Setting
                         </button>
                     </div>
@@ -174,7 +165,7 @@ export default function RecordPage() {
                                     <tr key={item._id} className=" bg-secondary outline outline-1 text-center outline-gray-200">
                                         <td>{index+1}</td>
                                         {/* Convert item.created_at which is UTC Time String to  Local Time with format DD Month (non abbreviated) Year HH:mm:ss*/}
-                                        <td>{new Date(item.created_at as string).toLocaleString('id-ID', {day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'}).replace("pukul","-")}</td>
+                                        <td>{new Date(item.created_at as string + "Z").toLocaleString('id-ID', {day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'}).replace("pukul","-")}</td>
                                         <td>{Math.round(item.initial_height*100)/100}</td>
                                         <td>{Math.round(item.final_height*100)/100}</td>
                                         <td className='max-sm:hidden'>{Math.round(item.initial_height *50*30/1000 *100)/100}</td>
